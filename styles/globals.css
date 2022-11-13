@@ -65,6 +65,14 @@ width: 100%;
     margin-left: 6px;
 }
 
+/* ========== FALLBACK PAGE ======= */
+.fallback-page {
+  font-size: 2rem;
+  color: #324d67;
+  margin: 250px auto;
+  text-align: center;
+}
+/* ========== NOT FOUND ====== */
 .not-found {
   color: #324d67;
   margin: 250px auto;
