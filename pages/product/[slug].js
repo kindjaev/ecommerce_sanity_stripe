@@ -4,7 +4,7 @@ import { useStateContext } from '../../context/StateContext'
 
 import {AiOutlineMinus, AiOutlinePlus, AiOutlineStar, AiFillStar} from 'react-icons/ai'
 import Product from '../../components/Product'
-import FallbackPage from '../../components/FallbackPage'
+// import FallbackPage from '../../components/FallbackPage'
 
 
 export const getStaticPaths = async () => {
@@ -23,26 +23,27 @@ export const getStaticPaths = async () => {
 
     return {
         paths: paths,
-        fallback: true // use true for fallback page
-        // fallback: false
+        // fallback: true // use true for fallback page and it doesnt work with dynamic pages
+        fallback: false
     }
 }
 
 export const getStaticProps = async ({params: { slug }}) => {
+    
     const productQuery = `*[_type == "product" && slug.current == "${slug}"][0]`
     const productData = await client.fetch(productQuery)
 
     const allProductsQuery = "*[_type == 'product']"
     const allProductsData = await client.fetch(allProductsQuery)
 
-    if(!productData && allProductsData){ //for fallback page
-        return {
-            redirect: {
-                destination: "/",
-                permanent: false
-            }
-        }
-    }
+    // if(!productData && allProductsData){ //for fallback page
+    //     return {
+    //         redirect: {
+    //             destination: "/",
+    //             permanent: false
+    //         }
+    //     }
+    // }
     return {
         props: {productData, allProductsData}
     }
@@ -51,8 +52,7 @@ export const getStaticProps = async ({params: { slug }}) => {
 // ========= PRODUCT DETAILS ==========
 function ProductDetails({productData, allProductsData}) {
 
-    
-    const {image, name, details, price} = productData
+    const {name, details, price, image} = productData
     const [index, setIndex] = useState(0)
     const {decQty, incQty, qty, onAdd, setShowCart} = useStateContext()
     
@@ -61,7 +61,7 @@ function ProductDetails({productData, allProductsData}) {
         setShowCart(true)
     }
     
-    if (!productData && !allProductsData) return <FallbackPage />
+    // if (!productData && !allProductsData) return <FallbackPage />
     //can put here fallback page if the api endpoin doesn't exist
   return (
     
